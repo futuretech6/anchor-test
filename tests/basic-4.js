@@ -20,12 +20,17 @@ describe("basic-4", () => {
 
     let counterPubkey;
 
-    before(async () => {
-        [counterPubkey] = await anchor.web3.PublicKey.findProgramAddress(
-            [counterSeed],
-            program.programId
-        );
-    });
+    // before(async () => {
+    //     [counterPubkey] = await anchor.web3.PublicKey.findProgramAddress(
+    //         [counterSeed],
+    //         program.programId
+    //     );
+    // });
+
+    [counterPubkey] = anchor.web3.PublicKey.findProgramAddressSync(
+        [counterSeed],
+        program.programId
+    );
 
     it("Is runs the constructor", async () => {
         // Initialize the program's state struct.
