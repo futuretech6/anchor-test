@@ -34,9 +34,5 @@ jobs:
       - name: run test on localnet
         run: |
           yarn
-          cargo --list
-          rustup toolchain list -v
-          echo $PATH
-          solana --version
-          ls ~/.local/share/solana/install/active_release/bin
+          solana-keygen new --no-bip39-passphrase
           anchor test --provider.cluster localnet
