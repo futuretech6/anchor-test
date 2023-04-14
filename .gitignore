@@ -1,9 +1,15 @@
 
 .anchor
 .DS_Store
-target
+.vscode
 **/*.rs.bk
 node_modules
 test-ledger
 .yarn
 .pnp.*
+docker-target
+
+/target/*
+!/target/deploy
+/target/deploy/*
+!/target/deploy/*-keypair.json
