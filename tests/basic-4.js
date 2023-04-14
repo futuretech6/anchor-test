@@ -2,13 +2,21 @@ const assert = require("assert");
 const anchor = require("@coral-xyz/anchor");
 
 describe("basic-4", () => {
-    const provider = anchor.AnchorProvider.local();
+    const provider = anchor.AnchorProvider.env();
 
     // Configure the client to use the local cluster.
     anchor.setProvider(provider);
 
-    const program = anchor.workspace.Basic4,
-        counterSeed = anchor.utils.bytes.utf8.encode("counter");
+    const program = new anchor.Program(
+        JSON.parse(
+            require("fs").readFileSync("./target/idl/basic_4.json", "utf8")
+        ),
+        new anchor.web3.PublicKey(
+            "9Umb4BB6FLFAdJ3PfydDz36UBwVx2gn4mBCvZJYSWbqi"
+        )
+    );
+
+    const counterSeed = anchor.utils.bytes.utf8.encode("counter");
 
     let counterPubkey;
 
@@ -31,7 +39,9 @@ describe("basic-4", () => {
             .rpc();
 
         // Fetch the state struct from the network.
-        const counterAccount = await program.account.counter.fetch(counterPubkey);
+        const counterAccount = await program.account.counter.fetch(
+            counterPubkey
+        );
 
         assert.ok(counterAccount.count.eq(new anchor.BN(0)));
     });
@@ -45,7 +55,9 @@ describe("basic-4", () => {
             })
             .rpc();
 
-        const counterAccount = await program.account.counter.fetch(counterPubkey);
+        const counterAccount = await program.account.counter.fetch(
+            counterPubkey
+        );
         assert.ok(counterAccount.count.eq(new anchor.BN(1)));
     });
 });
