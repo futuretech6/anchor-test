@@ -11,6 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: add solana path
+        run: |
+          echo "~/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
       - name: install rust
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
@@ -18,7 +22,6 @@ jobs:
       - name: install solana
         run: |
           sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
-          export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
           solana-install init 1.14.16
 
       - name: install anchor
@@ -28,4 +31,6 @@ jobs:
           avm use 0.27.0
 
       - name: run test on localnet
-        run: anchor test --provider.cluster localnet
+        run: |
+          yarn
+          anchor test --provider.cluster localnet
