@@ -14,6 +14,7 @@ jobs:
       - name: install solana
         run: |
           sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+          export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
           solana-install init 1.14.16
 
       - name: install anchor
