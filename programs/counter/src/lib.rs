@@ -26,7 +26,7 @@ pub mod counter {
         Ok(())
     }
 
-    pub fn increse(ctx: Context<Increse>) -> Result<()> {
+    pub fn increase(ctx: Context<Increase>) -> Result<()> {
         ctx.accounts.storage.counter.inc();
         msg!("counter value: {}", ctx.accounts.storage.counter.show());
         Ok(())

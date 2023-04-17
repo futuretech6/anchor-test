@@ -39,7 +39,7 @@ describe("anchor-test", () => {
 
     it("Executes a method on the program", async () => {
         const tx = await program.methods
-            .increse()
+            .increase()
             .accounts({
                 storage: storagePubkey,
                 authority: provider.wallet.publicKey,

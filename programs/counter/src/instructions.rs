@@ -14,7 +14,7 @@ pub struct Initialize<'info> {
 
 #[derive(Accounts)]
 #[instruction()]
-pub struct Increse<'info> {
+pub struct Increase<'info> {
     #[account(mut)]
     pub storage: Account<'info, Storage>,
     authority: Signer<'info>,
