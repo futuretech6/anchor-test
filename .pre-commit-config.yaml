@@ -28,3 +28,11 @@ repos:
     hooks:
       - id: prettier
         exclude: (.json)$
+
+  - repo: local
+    hooks:
+      - id: solana-key-check
+        name: solana private key check
+        entry: "\\[([0-9]{1,3},){63}[0-9]{1,3}\\]"
+        language: pygrep
+        types: [text]
