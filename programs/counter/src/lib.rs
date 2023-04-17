@@ -1,50 +1,17 @@
 use anchor_lang::prelude::*;
 use std::ops::DerefMut;
 
+mod inner_counter;
+mod instructions;
+mod storage;
+
+use crate::instructions::*;
+use crate::storage::Storage;
+
 declare_id!("Bz3bY4X3oPQsBoUr4B4LWHW2Jf3JYh2UwsAHhmdRN1bq");
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct Counter {
-    value: i128,
-}
-
-impl Counter {
-    pub const SIZE: usize = 8 + 16;
-
-    pub fn new(value: i128) -> Self {
-        Counter { value }
-    }
-    pub fn inc(&mut self) {
-        self.value += 1;
-    }
-    pub fn dec(&mut self) {
-        self.value -= 1;
-    }
-    pub fn show(&self) -> i128 {
-        self.value
-    }
-}
-
-#[account]
-pub struct Storage {
-    counter: Counter,
-    pub authority: Pubkey,
-    pub bump: u8,
-}
-
-impl Storage {
-    pub const SIZE: usize = 8 + Counter::SIZE + 32 + 1;
-
-    pub fn new(value: i128, authority: Pubkey, bump: u8) -> Self {
-        Storage {
-            counter: Counter::new(value),
-            authority,
-            bump,
-        }
-    }
-}
-
 #[program]
+#[allow(clippy::large_enum_variant)]
 pub mod counter {
     use super::*;
 
@@ -59,7 +26,7 @@ pub mod counter {
         Ok(())
     }
 
-    pub fn increse(ctx: Context<Increment>) -> Result<()> {
+    pub fn increse(ctx: Context<Increse>) -> Result<()> {
         ctx.accounts.storage.counter.inc();
         msg!("counter value: {}", ctx.accounts.storage.counter.show());
         Ok(())
@@ -73,36 +40,6 @@ pub mod counter {
         msg!("counter value: {}", ctx.accounts.storage.counter.show());
         Ok(())
     }
-}
-
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(init, payer = authority, space = Storage::SIZE, seeds = [b"storage"], bump)]
-    pub storage: Account<'info, Storage>,
-    #[account(mut)]
-    pub authority: Signer<'info>,
-    pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-pub struct Increment<'info> {
-    #[account(mut)]
-    storage: Account<'info, Storage>,
-    authority: Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Decrease<'info> {
-    #[account(mut)]
-    storage: Account<'info, Storage>,
-    authority: Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Show<'info> {
-    #[account(mut)]
-    storage: Account<'info, Storage>,
-    authority: Signer<'info>,
 }
 
 #[error_code]
