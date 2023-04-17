@@ -11,7 +11,7 @@ use crate::storage::Storage;
 declare_id!("Bz3bY4X3oPQsBoUr4B4LWHW2Jf3JYh2UwsAHhmdRN1bq");
 
 #[program]
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::result_large_err)]
 pub mod counter {
     use super::*;
 

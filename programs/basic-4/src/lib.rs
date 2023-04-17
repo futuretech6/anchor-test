@@ -4,6 +4,7 @@ use std::ops::DerefMut;
 declare_id!("9Umb4BB6FLFAdJ3PfydDz36UBwVx2gn4mBCvZJYSWbqi");
 
 #[program]
+#[allow(clippy::result_large_err)]
 pub mod basic_4 {
     use super::*;
 
