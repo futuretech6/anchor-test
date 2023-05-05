@@ -36,3 +36,4 @@ repos:
         entry: "\\[\\s*([0-9]{1,3}\\s*,\\s*){63}[0-9]{1,3}\\s*\\]"
         language: pygrep
         types: [text]
+        exclude: ^target/deploy/(anchor_test|basic_4|counter)-keypair.json$
